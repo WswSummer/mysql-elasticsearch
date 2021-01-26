@@ -1,4 +1,4 @@
-package com.wsw.mysqlelasticsearch.repository.es;
+package com.wsw.mysqlelasticsearch.repository;
 
 import com.wsw.mysqlelasticsearch.entity.Blog;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;

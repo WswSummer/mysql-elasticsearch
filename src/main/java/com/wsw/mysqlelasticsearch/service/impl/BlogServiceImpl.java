@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wsw.mysqlelasticsearch.api.OperationType;
 import com.wsw.mysqlelasticsearch.entity.Blog;
-import com.wsw.mysqlelasticsearch.repository.jpa.BlogRepository;
+import com.wsw.mysqlelasticsearch.mapper.BlogMapper;
 import com.wsw.mysqlelasticsearch.service.BlogService;
 import com.wsw.mysqlelasticsearch.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class BlogServiceImpl implements BlogService {
     @Resource
-    private BlogRepository blogRepository;
+    private BlogMapper blogMapper;
 
     @Resource
     private MessageService messageService;
@@ -38,7 +38,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void addBlog(Blog blog) {
-        blogRepository.save(blog);
+        blogMapper.insert(blog);
         ObjectMapper objectMapper = new ObjectMapper();
         String blogStr = null;
         try {
@@ -61,7 +61,7 @@ public class BlogServiceImpl implements BlogService {
         RLock lock = redissonClient.getLock(REDIS_LOCK_KEY);
         lock.lock(30, TimeUnit.SECONDS);
         try {
-            blogRepository.deleteById(id);
+            blogMapper.deleteById(id);
         } catch (Exception e) {
             log.error("删除失败: " + e.getMessage());
         } finally {
@@ -79,7 +79,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void updateBlog(Blog blog) {
-        blogRepository.saveAndFlush(blog);
+        blogMapper.updateById(blog);
         ObjectMapper objectMapper = new ObjectMapper();
         String blogStr = null;
         try {

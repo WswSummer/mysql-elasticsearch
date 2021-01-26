@@ -1,7 +1,7 @@
 package com.wsw.mysqlelasticsearch.service.impl;
 
 import com.wsw.mysqlelasticsearch.entity.Blog;
-import com.wsw.mysqlelasticsearch.repository.es.ElasticRepository;
+import com.wsw.mysqlelasticsearch.repository.ElasticRepository;
 import com.wsw.mysqlelasticsearch.service.ElasticService;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.query.QueryBuilders;

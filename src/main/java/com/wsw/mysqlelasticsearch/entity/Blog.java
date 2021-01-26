@@ -9,7 +9,6 @@ import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -21,13 +20,11 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @Document(indexName = "blog", type = "_doc")
-@Entity
 public class Blog implements Serializable {
 
     private static final long serialVersionUID = 6320548148250372657L;
 
     @Id
-    @javax.persistence.Id
     private String id;
 
     @Field(type = FieldType.Text, analyzer = "ik_max_word")
