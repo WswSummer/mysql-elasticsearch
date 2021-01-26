@@ -14,7 +14,7 @@ import java.util.UUID;
 /**
  * @Author WangSongWen
  * @Date: Created in 14:48 2021/1/25
- * @Description:
+ * @Description: 消息发送主服务
  */
 @Service
 @Slf4j

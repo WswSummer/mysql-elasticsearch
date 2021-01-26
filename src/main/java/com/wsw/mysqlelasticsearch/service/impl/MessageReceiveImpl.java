@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * @Author WangSongWen
  * @Date: Created in 15:11 2021/1/25
- * @Description:
+ * @Description: 消息接收主服务
  */
 @Service
 @Slf4j
@@ -34,12 +34,14 @@ public class MessageReceiveImpl implements MessageReceive {
             ObjectMapper objectMapper = new ObjectMapper();
             log.info("数据同步服务接收到了消息: " + objectMapper.writeValueAsString(messageMap));
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
-
+            // 获取数据操作类型
             String operationType = MapUtils.getString(messageMap, "operationType");
+            String blogStr;
+            Blog blog;
             switch (operationType) {
                 case "ADD":
-                    String blogStr = MapUtils.getString(messageMap, "blog");
-                    Blog blog = objectMapper.readValue(blogStr, Blog.class);
+                    blogStr = MapUtils.getString(messageMap, "blog");
+                    blog = objectMapper.readValue(blogStr, Blog.class);
                     if (blog != null) {
                         try {
                             elasticService.addBlog(blog);
@@ -52,16 +54,28 @@ public class MessageReceiveImpl implements MessageReceive {
                 case "DELETE":
                     String blogId = MapUtils.getString(messageMap, "blogId");
                     if (blogId != null) {
-                        elasticService.deleteBlogById(blogId);
-                        log.info("删除数据同步至ElasticSearch成功!");
+                        try {
+                            elasticService.deleteBlogById(blogId);
+                            log.info("删除数据同步至ElasticSearch成功!");
+                        } catch (Exception e) {
+                            log.error("删除数据同步至ElasticSearch失败! " + e.getMessage());
+                        }
                     }
                     break;
                 case "UPDATE":
-
+                    blogStr = MapUtils.getString(messageMap, "blog");
+                    blog = objectMapper.readValue(blogStr, Blog.class);
+                    if (blog != null) {
+                        try {
+                            elasticService.updateBlog(blog);
+                            log.info("更新数据同步至ElasticSearch成功!");
+                        } catch (Exception e) {
+                            log.error("更新数据同步至ElasticSearch失败! " + e.getMessage());
+                        }
+                    }
                     break;
                 default:
                     break;
-
             }
         } catch (Exception e) {
             if (message.getMessageProperties().getRedelivered()) {

@@ -67,4 +67,9 @@ public class ElasticServiceImpl implements ElasticService {
         elasticRepository.deleteById(id);
     }
 
+    @Override
+    public void updateBlog(Blog blog) {
+        elasticRepository.save(blog);
+    }
+
 }

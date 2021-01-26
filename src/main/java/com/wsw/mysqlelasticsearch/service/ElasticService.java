@@ -22,4 +22,6 @@ public interface ElasticService {
     void deleteAllBlog();
 
     void deleteBlogById(String id);
+
+    void updateBlog(Blog blog);
 }

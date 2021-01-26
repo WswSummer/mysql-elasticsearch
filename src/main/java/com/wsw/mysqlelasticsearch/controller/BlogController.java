@@ -28,9 +28,31 @@ public class BlogController {
     private BlogService blogService;
 
     @PostMapping("/add")
-    public CommonResult add(@RequestBody Blog blog) {
+    public CommonResult addBlog(@RequestBody Blog blog) {
         try {
             blogService.addBlog(blog);
+            return CommonResult.success(blog);
+        } catch (Exception e) {
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
+    @GetMapping("/delete/{id}")
+    public CommonResult deleteBlogById(@PathVariable String id) {
+        if (StringUtils.isBlank(id))
+            return CommonResult.failed("id is empty");
+        try {
+            blogService.deleteBlogById(id);
+            return CommonResult.success("删除成功, id = " + id);
+        } catch (Exception e) {
+            return CommonResult.failed(e.getMessage());
+        }
+    }
+
+    @PostMapping("/update")
+    public CommonResult updateBlog(@RequestBody Blog blog) {
+        try {
+            blogService.updateBlog(blog);
             return CommonResult.success(blog);
         } catch (Exception e) {
             return CommonResult.failed(e.getMessage());

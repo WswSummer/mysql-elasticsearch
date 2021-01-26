@@ -9,4 +9,8 @@ import com.wsw.mysqlelasticsearch.entity.Blog;
  */
 public interface BlogService {
     void addBlog(Blog blog);
+
+    void deleteBlogById(String id);
+
+    void updateBlog(Blog blog);
 }

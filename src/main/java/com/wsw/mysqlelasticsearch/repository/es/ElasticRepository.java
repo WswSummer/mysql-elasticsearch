@@ -11,5 +11,4 @@ import org.springframework.stereotype.Repository;
  */
 @Repository()
 public interface ElasticRepository extends ElasticsearchRepository<Blog, String> {
-
 }

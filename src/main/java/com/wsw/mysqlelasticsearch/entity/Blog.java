@@ -16,7 +16,7 @@ import java.util.Date;
 /**
  * @Author WangSongWen
  * @Date: Created in 10:46 2021/1/22
- * @Description:
+ * @Description: 实体类
  */
 @Data
 @Accessors(chain = true)
