@@ -38,7 +38,8 @@ public class MessageReceiveImpl implements MessageReceive {
             String operationType = MapUtils.getString(messageMap, "operationType");
             switch (operationType) {
                 case "ADD":
-                    Blog blog = (Blog) MapUtils.getObject(messageMap, "blog");
+                    String blogStr = MapUtils.getString(messageMap, "blog");
+                    Blog blog = objectMapper.readValue(blogStr, Blog.class);
                     if (blog != null) {
                         try {
                             elasticService.addBlog(blog);

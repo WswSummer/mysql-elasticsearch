@@ -20,7 +20,7 @@ import java.util.Date;
  */
 @Data
 @Accessors(chain = true)
-@Document(indexName = "blog_index", type = "_doc")
+@Document(indexName = "blog", type = "_doc")
 @Entity
 public class Blog implements Serializable {
 

@@ -37,7 +37,7 @@ spring:
       maximum-pool-size: 15
       auto-commit: true
       idle-timeout: 30000
-      pool-name: DatebookHikariCP
+      pool-name: BlogHikariCP
       connection-timeout: 30000
   jpa:
     hibernate:
