@@ -8,11 +8,14 @@ import com.wsw.mysqlelasticsearch.repository.jpa.BlogRepository;
 import com.wsw.mysqlelasticsearch.service.BlogService;
 import com.wsw.mysqlelasticsearch.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author WangSongWen
@@ -27,6 +30,11 @@ public class BlogServiceImpl implements BlogService {
 
     @Resource
     private MessageService messageService;
+
+    @Resource
+    private RedissonClient redissonClient;
+
+    private static final String REDIS_LOCK_KEY = "blog-service";
 
     @Override
     public void addBlog(Blog blog) {
@@ -50,7 +58,15 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void deleteBlogById(String id) {
-        blogRepository.deleteById(id);
+        RLock lock = redissonClient.getLock(REDIS_LOCK_KEY);
+        lock.lock(30, TimeUnit.SECONDS);
+        try {
+            blogRepository.deleteById(id);
+        } catch (Exception e) {
+            log.error("删除失败: " + e.getMessage());
+        } finally {
+            lock.unlock();
+        }
         Map<String, Object> message = new HashMap<>();
         message.put("operationType", OperationType.DELETE.getOperation());
         message.put("blogId", id);
