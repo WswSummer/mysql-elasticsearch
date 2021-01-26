@@ -38,7 +38,11 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public void addBlog(Blog blog) {
-        blogMapper.insert(blog);
+        try {
+            blogMapper.insert(blog);
+        } catch (Exception e) {
+            log.error("添加失败: " + e.getMessage());
+        }
         ObjectMapper objectMapper = new ObjectMapper();
         String blogStr = null;
         try {
@@ -57,7 +61,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void deleteBlogById(String id) {
+    public void deleteBlogById(Long id) {
         RLock lock = redissonClient.getLock(REDIS_LOCK_KEY);
         lock.lock(30, TimeUnit.SECONDS);
         try {

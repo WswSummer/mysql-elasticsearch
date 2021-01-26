@@ -52,7 +52,7 @@ public class MessageReceiveImpl implements MessageReceive {
                     }
                     break;
                 case "DELETE":
-                    String blogId = MapUtils.getString(messageMap, "blogId");
+                    Long blogId = MapUtils.getLong(messageMap, "blogId");
                     if (blogId != null) {
                         try {
                             elasticService.deleteBlogById(blogId);

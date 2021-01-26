@@ -15,13 +15,13 @@ public interface ElasticService {
 
     void addBlog(Blog blog);
 
-    Optional<Blog> getBlogById(String id);
+    Optional<Blog> getBlogById(Long id);
 
     Iterable<Blog> getAllBlog();
 
     void deleteAllBlog();
 
-    void deleteBlogById(String id);
+    void deleteBlogById(Long id);
 
     void updateBlog(Blog blog);
 }

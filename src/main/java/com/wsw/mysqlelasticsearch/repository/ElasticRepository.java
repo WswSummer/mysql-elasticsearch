@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * @Description:
  */
 @Repository()
-public interface ElasticRepository extends ElasticsearchRepository<Blog, String> {
+public interface ElasticRepository extends ElasticsearchRepository<Blog, Long> {
 }

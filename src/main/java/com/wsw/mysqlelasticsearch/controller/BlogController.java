@@ -4,7 +4,6 @@ import com.wsw.mysqlelasticsearch.api.CommonResult;
 import com.wsw.mysqlelasticsearch.entity.Blog;
 import com.wsw.mysqlelasticsearch.service.BlogService;
 import com.wsw.mysqlelasticsearch.service.ElasticService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +37,7 @@ public class BlogController {
     }
 
     @GetMapping("/delete/{id}")
-    public CommonResult deleteBlogById(@PathVariable String id) {
-        if (StringUtils.isBlank(id))
-            return CommonResult.failed("id is empty");
+    public CommonResult deleteBlogById(@PathVariable Long id) {
         try {
             blogService.deleteBlogById(id);
             return CommonResult.success("删除成功, id = " + id);
@@ -60,9 +57,7 @@ public class BlogController {
     }
 
     @GetMapping("/get/{id}")
-    public CommonResult getBlogById(@PathVariable String id) {
-        if (StringUtils.isBlank(id))
-            return CommonResult.failed("id is empty");
+    public CommonResult getBlogById(@PathVariable Long id) {
         try {
             Optional<Blog> blogOptional = elasticService.getBlogById(id);
             Blog blog = null;

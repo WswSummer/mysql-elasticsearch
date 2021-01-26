@@ -48,7 +48,7 @@ public class ElasticServiceImpl implements ElasticService {
     }
 
     @Override
-    public Optional<Blog> getBlogById(String id) {
+    public Optional<Blog> getBlogById(Long id) {
         return elasticRepository.findById(id);
     }
 
@@ -63,7 +63,7 @@ public class ElasticServiceImpl implements ElasticService {
     }
 
     @Override
-    public void deleteBlogById(String id) {
+    public void deleteBlogById(Long id) {
         elasticRepository.deleteById(id);
     }
 
