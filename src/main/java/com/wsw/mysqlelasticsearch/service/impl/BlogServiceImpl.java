@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class BlogServiceImpl implements BlogService {
     private static final String REDIS_LOCK_KEY = "blog-service";
 
     @Override
+    @Transactional
     public void addBlog(Blog blog) {
         try {
             blogMapper.insert(blog);
@@ -61,6 +63,7 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    @Transactional
     public void deleteBlogById(Long id) {
         RLock lock = redissonClient.getLock(REDIS_LOCK_KEY);
         lock.lock(30, TimeUnit.SECONDS);
@@ -82,8 +85,13 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    @Transactional
     public void updateBlog(Blog blog) {
-        blogMapper.updateById(blog);
+        try {
+            blogMapper.updateById(blog);
+        } catch (Exception e) {
+            log.error("更新失败: " + e.getMessage());
+        }
         ObjectMapper objectMapper = new ObjectMapper();
         String blogStr = null;
         try {

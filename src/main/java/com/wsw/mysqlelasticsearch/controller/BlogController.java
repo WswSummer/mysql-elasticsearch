@@ -30,7 +30,7 @@ public class BlogController {
     public CommonResult addBlog(@RequestBody Blog blog) {
         try {
             blogService.addBlog(blog);
-            return CommonResult.success(blog);
+            return CommonResult.success("新增成功: id = " + blog.getId());
         } catch (Exception e) {
             return CommonResult.failed(e.getMessage());
         }
@@ -40,7 +40,7 @@ public class BlogController {
     public CommonResult deleteBlogById(@PathVariable Long id) {
         try {
             blogService.deleteBlogById(id);
-            return CommonResult.success("删除成功, id = " + id);
+            return CommonResult.success("删除成功: id = " + id);
         } catch (Exception e) {
             return CommonResult.failed(e.getMessage());
         }
@@ -50,7 +50,7 @@ public class BlogController {
     public CommonResult updateBlog(@RequestBody Blog blog) {
         try {
             blogService.updateBlog(blog);
-            return CommonResult.success(blog);
+            return CommonResult.success("更新成功: id = " + blog.getId());
         } catch (Exception e) {
             return CommonResult.failed(e.getMessage());
         }
