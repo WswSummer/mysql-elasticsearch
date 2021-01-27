@@ -47,7 +47,7 @@ public class MessageReceiveImpl implements MessageReceive {
                             elasticService.addBlog(blog);
                             log.info("添加数据同步至ElasticSearch成功!");
                         } catch (Exception e) {
-                            log.error("添加数据同步至ElasticSearch失败! " + e.getMessage());;
+                            log.error("添加数据同步至ElasticSearch失败! " + e.getMessage());
                         }
                     }
                     break;

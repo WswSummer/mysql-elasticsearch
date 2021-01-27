@@ -62,6 +62,10 @@ redisson:
   client:
     address: redis://39.107.80.231:6379
 
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 management:
   endpoints:
     web:
